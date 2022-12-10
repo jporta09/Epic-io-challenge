@@ -1,7 +1,8 @@
 '''
 Multi-Object Tracker:
 
-This program was created for the purpose of tracking multiple objects on video. To achieve the task, the OpenCV library was used.
+This program was created for the purpose of tracking multiple objects on video.
+To achieve the task, the OpenCV library was used.
 '''
 
 #Import libraries
