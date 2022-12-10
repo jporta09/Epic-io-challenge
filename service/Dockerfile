@@ -1,8 +1,7 @@
-FROM python:3.9.0
+FROM conda/miniconda3
 
-COPY requirements.txt requirements.txt
-
-RUN pip3 install -r requirements.txt
+RUN conda install numpy
+RUN conda install -c conda-forge opencv
 
 COPY VideoTracker.py /
 
