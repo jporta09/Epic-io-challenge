@@ -9,26 +9,35 @@ To achieve the task, the OpenCV library was used.
 import argparse
 import cv2
 import sys
+import logging
 import json
+
+logging.basicConfig(encoding='utf-8', level=logging.INFO, handlers=[
+        logging.FileHandler("../output/debug.log"),
+        logging.StreamHandler()
+    ])
 
 def MultiTracker(video_path, json_path, output_path, model, frames):
     
     #Load Video
+    logging.info('Loading video from {}'.format(video_path))
     video = cv2.VideoCapture(video_path)
-    
     success, frame = video.read()
     
     #Load initial Bboxes from json
+    logging.info('Loading bboxes from {}'.format(json_path))
     with open(json_path, 'r') as j:
         contents = json.load(j)
         
     bboxes = []
     for i in range(len(contents)):
         bboxes.append(contents[i]['coordinates'])
-        
+    
     multiTracker = cv2.legacy.MultiTracker_create()
     
     #Initialize the trackers using Initial Bboxes and first frame
+    logging.info('Initialize the trackers')
+
     for bbox in bboxes:
         multiTracker.add(model.create(), frame, bbox)
     
@@ -38,10 +47,14 @@ def MultiTracker(video_path, json_path, output_path, model, frames):
     fps = video.get(cv2.CAP_PROP_FPS)
     fourcc = cv2.VideoWriter_fourcc(*'DIVX')
     out = cv2.VideoWriter(output_path, fourcc, fps, (int(width),int(height)))
-    
+    logging.info('Set the parameters of the output video. Width:{0}, height:{1}, fps:{2}'.format(width,height,fps))
+
+
     #Frame length and frame counter
+    
     length = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
     num = int(video.get(cv2.CAP_PROP_POS_FRAMES))
+    logging.info('Length of the video: {} frames'.format(length))
 
     #Loop over frames
     while num < length:
@@ -49,9 +62,8 @@ def MultiTracker(video_path, json_path, output_path, model, frames):
         num = int(video.get(cv2.CAP_PROP_POS_FRAMES))
         success, boxes = multiTracker.update(frame)
         
-        if frames:
-            if num%30==0:
-                print('the tracker has processed {} frames'.format(num))
+        if num%30==0:
+            logging.info('Processed {} frames'.format(num))
 
         # draw tracked objects
         for i, newbox in enumerate(boxes):
@@ -66,7 +78,7 @@ def MultiTracker(video_path, json_path, output_path, model, frames):
     video.release()
     cv2.destroyAllWindows()
     
-    print('the tracked video was successfully generated in: {}'.format(output_path))
+    logging.info('the tracked video was successfully generated in: {}'.format(output_path))
     
     return
     
@@ -93,7 +105,7 @@ if __name__ == "__main__":
             '--output',
             help="Path to save tracked video",
             type=str,
-            default='../output.avi')
+            default='../output/output.avi')
     parser.add_argument(
             '--pathjson',
             help="Path to initial condition json",
@@ -123,13 +135,6 @@ if __name__ == "__main__":
     
     tracker = TrDict[args.trackmodel]
     
-    print('the model to use is {}'.format(args.trackmodel))
+    logging.info('the model to use is {}'.format(args.trackmodel))
     
     MultiTracker(args.pathvideo, args.pathjson, args.output, tracker, args.processframe)
-    
-
-        
-    
-
-    
-    

@@ -8,26 +8,29 @@ This project is a multi-object tracking system that was developed using the Open
 
 ## Usage
 
-The Dockerfile is located in the service folder, along with the requirements file. After building the image, we can run the project from terminal as follows:
+
+The Dockerfile is located in the service folder, along with the requirements file. After building the image:
 
 ```bash
-docker run image-name
+docker-compose build
 ```
 
-You can set the video input path, the path to the initial bounding boxes, the video output path, and the model to use:
+we can run the project from terminal as follows:
 
 ```bash
-docker run image-name --pathvideo=/input/video --pathjson=/bboxes/json --output=/output/video --trackmodel='csrt'
+docker-compose run tracker
 ```
 
-You can also choose to view the frame processing progress:
+You can set the video input path, the path to the initial bounding boxes, the video output path (properly changing the volumes in the docker-compose.yml file), and the model to use:
 
 ```bash
-docker run image-name --processframe
+docker-compose run tracker --pathvideo=/input/video --pathjson=/bboxes/json --output=/output/video --trackmodel='csrt'
 ```
+
 
 To consult the help (to see in detail arguments, model options, etc):
 
 ```bash
-docker run image-name --help
+docker-compose run tracker --help
 ```
+The logs are located in /output/exec.log

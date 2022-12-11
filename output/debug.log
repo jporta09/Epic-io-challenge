@@ -1,0 +1,15 @@
+INFO:root:the model to use is mosse
+INFO:root:Loading video from ../development_assets/input.mkv
+INFO:root:Loading bboxes from ../development_assets/initial_conditions.json
+INFO:root:Initialize the trackers
+INFO:root:Set the parameters of the output video. Width:1920.0, height:1080.0, fps:25.0
+INFO:root:Length of the video: 250 frames
+INFO:root:Processed 30 frames
+INFO:root:Processed 60 frames
+INFO:root:Processed 90 frames
+INFO:root:Processed 120 frames
+INFO:root:Processed 150 frames
+INFO:root:Processed 180 frames
+INFO:root:Processed 210 frames
+INFO:root:Processed 240 frames
+INFO:root:the tracked video was successfully generated in: ../output/output.avi

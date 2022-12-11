@@ -1,0 +1,10 @@
+version: "3.5"
+
+services:
+  tracker:
+    image: jporta/tracker
+    build:
+      context: ./
+    volumes:
+      - ./development_assets:/development_assets
+      - ./output:/output
